@@ -1,138 +1,234 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
-import { User, LogOut, Command, Github, MessageCircle, Instagram, Menu, X } from 'lucide-react'; 
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link, usePage, Head } from "@inertiajs/react";
+import { useState } from "react";
+import {
+    User,
+    LogOut,
+    Command,
+    Github,
+    MessageCircle,
+    Instagram,
+    Menu,
+    X,
+    LayoutDashboard,
+    Folder,
+    FileText,
+    Wallet,
+    Zap,
+    Calendar,
+    ChevronDown,
+} from "lucide-react";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
+
+    const navItems = [
+        {
+            name: "Dashboard",
+            href: route("dashboard"),
+            active: "dashboard",
+            icon: <LayoutDashboard size={14} />,
+        },
+        {
+            name: "Folder",
+            href: route("folders.index"),
+            active: "folders.*",
+            icon: <Folder size={14} />,
+        },
+        {
+            name: "Catatan",
+            href: route("notes.index"),
+            active: "notes.*",
+            icon: <FileText size={14} />,
+        },
+        {
+            name: "Tabungan",
+            href: route("budgets.index"),
+            active: "budgets.*",
+            icon: <Wallet size={14} />,
+        },
+        {
+            name: "Habit",
+            href: route("habits.index"),
+            active: "habits.*",
+            icon: <Zap size={14} />,
+        },
+        {
+            name: "Event",
+            href: route("events.index"),
+            active: "events.*",
+            icon: <Calendar size={14} />,
+        },
+    ];
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans">
+            {/* --- NAVBAR --- */}
             <div className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8">
-                <nav className="mx-auto max-w-7xl rounded-[2rem] border border-white/40 bg-white/60 backdrop-blur-sm shadow-lg shadow-indigo-100/20 transition-all duration-300">
+                <nav className="mx-auto max-w-7xl rounded-[2rem] border border-white/40 bg-white/60 backdrop-blur-sm shadow-lg shadow-indigo-100/10 transition-all duration-300">
                     <div className="px-5 sm:px-8">
-                        <div className="flex h-16 justify-between items-center">
-                            <div className="flex items-center">
-                                <div className="flex shrink-0 items-center mr-4 sm:mr-8"> 
-                                    <Link href="/" className="group flex items-center gap-2">
-                                        <div className="relative flex items-center justify-center">
-                                            <div className="absolute inset-0 bg-indigo-500/20 blur-lg rounded-full group-hover:bg-indigo-500/40 transition-all"></div>
-                                            <Command className="relative w-6 h-6 sm:w-7 sm:h-7 text-indigo-600 stroke-[2.5px] transform group-hover:rotate-12 transition-transform duration-500" />
-                                        </div>
-                                        <span className="text-base sm:text-lg font-black italic tracking-tighter text-gray-900 uppercase">
-                                            Task <span className="text-indigo-600">.</span> Planner
-                                        </span>
-                                    </Link>
-                                </div>
-
-                                {/* Desktop Links */}
-                                <div className="hidden space-x-4 sm:flex">
-                                    <NavLink
-                                        href={route('dashboard')}
-                                        active={route().current('dashboard')}
-                                        className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-indigo-600 transition-colors relative group border-none focus:border-none"
-                                    >
-                                        Dashboard
-                                        {/* Efek Underline Simetris */}
-                                        <span className={`absolute -bottom-1 left-0 h-0.5 bg-indigo-600 transition-all rounded-full ${route().current('dashboard') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </NavLink>
-                                    
-                                    <NavLink 
-                                        href={route('folders.index')} 
-                                        active={route().current('folders.index')}
-                                        className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-indigo-600 transition-colors relative group border-none focus:border-none"
-                                    >
-                                        Folder Saya
-                                        <span className={`absolute -bottom-1 left-0 h-0.5 bg-indigo-600 transition-all rounded-full ${route().current('folders.index') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </NavLink>
-                                </div>
-                            </div>
-
-                            {/* User Dropdown (Desktop) */}
-                            <div className="hidden sm:flex sm:items-center">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <button className="group flex items-center gap-3 rounded-[2rem] bg-white/50 backdrop-blur-sm px-3 py-1.5 border border-gray-100 hover:bg-white hover:shadow-sm transition-all duration-300">
-                                            {/* Profile Initial - Kotak Minimalis */}
-                                            <div className="flex h-7 w-7 items-center justify-center rounded-[2rem] bg-indigo-600 text-white text-[10px] font-black uppercase tracking-tighter">
-                                                {user.name.charAt(0)}
-                                            </div>
-
-                                            {/* Name - Simpel */}
-                                            <span className="text-sm font-bold text-gray-700 tracking-tight">
-                                                {user.name}
-                                            </span>
-
-                                            {/* Chevron */}
-                                            <svg className="h-4 w-4 text-gray-400 group-hover:text-indigo-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </button>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content 
-                                        align="right" 
-                                        width="48" 
-                                        contentClasses="py-1 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-100"
-                                    >
-                                        <Dropdown.Link 
-                                            href={route('profile.edit')}
-                                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition-all uppercase tracking-widest"
-                                        >
-                                            <User size={14} /> Profile
-                                        </Dropdown.Link>
-
-                                        <div className="border-t border-gray-50 my-1"></div>
-
-                                        <Dropdown.Link 
-                                            href={route('logout')} 
-                                            method="post" 
-                                            as="button"
-                                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 transition-all uppercase tracking-widest w-full text-left"
-                                        >
-                                            <LogOut size={14} /> Logout
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-
-                            {/* Mobile Toggle Button */}
-                            <div className="flex items-center sm:hidden">
-                                <button 
-                                    onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)} 
-                                    className="rounded-xl p-2 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150"
+                        <div className="relative flex h-14 items-center justify-between">
+                            {/* --- BAGIAN KIRI: LOGO --- */}
+                            <div className="flex items-center shrink-0">
+                                <Link
+                                    href="/"
+                                    className="group flex items-center gap-2"
                                 >
-                                    {showingNavigationDropdown ? (
-                                        <X className="h-6 w-6" />
-                                    ) : (
-                                        <Menu className="h-6 w-6" />
-                                    )}
-                                </button>
+                                    <div className="relative flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-indigo-500/20 blur-lg rounded-full group-hover:bg-indigo-500/40 transition-all duration-500"></div>
+                                        <Command className="relative w-6 h-6 sm:w-8 sm:h-8 text-indigo-600 stroke-[2.5px] transform group-hover:rotate-12 transition-transform duration-500" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <h1 className="text-sm sm:text-xl font-black italic tracking-tighter text-gray-900 uppercase leading-none">
+                                            TASK{" "}
+                                            <span className="text-indigo-600">
+                                                .
+                                            </span>{" "}
+                                            PLANNER
+                                        </h1>
+                                    </div>
+                                </Link>
+                            </div>
+
+                            {/* --- BAGIAN TENGAH: LINKS (DESKTOP) --- */}
+                            <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-4">
+                                {navItems.map((item) => (
+                                    <NavLink
+                                        key={item.name}
+                                        href={item.href}
+                                        active={route().current(item.active)}
+                                        className={`text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-indigo-600 border-none transition-colors relative group ${
+                                            route().current(item.active)
+                                                ? "text-indigo-600"
+                                                : "text-slate-400 hover:text-indigo-600"
+                                        }`}
+                                    >
+                                        {item.name}
+                                    </NavLink>
+                                ))}
+                            </div>
+
+                            {/* --- BAGIAN KANAN: PROFILE & MOBILE TOGGLE --- */}
+                            <div className="flex items-center gap-2">
+                                <div className="hidden sm:flex sm:items-center">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            {/* Background & Border dihapus sesuai permintaan */}
+                                            <button className="group flex items-center gap-3 rounded-full py-1.5 pl-2 pr-1 transition-all duration-300 hover:opacity-80">
+                                                <div className="flex flex-col items-end leading-tight">
+                                                    <span className="text-sm font-black text-slate-900 tracking-tight uppercase">
+                                                        {user.name}
+                                                    </span>
+                                                    <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest opacity-60">
+                                                        Member Since {new Date(user.created_at).getFullYear()}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 overflow-hidden shadow-sm border border-white/50 ring-2 ring-slate-100 group-hover:ring-indigo-100 transition-all">
+                                                    {user.profile_photo_path ? (
+                                                        <img
+                                                            src={`/storage/${user.profile_photo_path}`}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <span className="text-white text-sm font-black uppercase">
+                                                            {user.name.charAt(
+                                                                0,
+                                                            )}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <ChevronDown className="h-3 w-3 text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                                            </button>
+                                        </Dropdown.Trigger>
+
+                                        <Dropdown.Content
+                                            align="right"
+                                            width="48"
+                                            contentClasses="py-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-100/50 mt-2"
+                                        >
+                                            <Dropdown.Link
+                                                href={route("profile.edit")}
+                                                className="flex items-center gap-3 px-5 py-2.5 text-[10px] font-black text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/30 transition-all uppercase tracking-widest"
+                                            >
+                                                <User
+                                                    size={16}
+                                                    className="opacity-50"
+                                                />{" "}
+                                                Pengaturan Akun
+                                            </Dropdown.Link>
+                                            <div className="border-t border-slate-50 my-1 mx-4"></div>
+                                            <Dropdown.Link
+                                                href={route("logout")}
+                                                method="post"
+                                                as="button"
+                                                className="flex items-center gap-3 px-5 py-2.5 text-[10px] font-black text-rose-500 hover:bg-rose-50/50 transition-all uppercase tracking-widest w-full text-left"
+                                            >
+                                                <LogOut
+                                                    size={14}
+                                                    className="opacity-50"
+                                                />{" "}
+                                                Keluar
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                </div>
+
+                                {/* Hamburger Mobile */}
+                                <div className="flex items-center lg:hidden">
+                                    <button
+                                        onClick={() =>
+                                            setShowingNavigationDropdown(
+                                                !showingNavigationDropdown,
+                                            )
+                                        }
+                                        className="rounded-xl p-2 text-slate-500 hover:bg-indigo-50 hover:text-indigo-600 transition-all"
+                                    >
+                                        {showingNavigationDropdown ? (
+                                            <X className="h-5 w-5" />
+                                        ) : (
+                                            <Menu className="h-5 w-5" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Mobile Menu Content - Muncul di bawah Navbar saat toggle aktif */}
-                    <div className={`${showingNavigationDropdown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} sm:hidden overflow-hidden transition-all duration-300 ease-in-out`}>
-                        <div className="px-4 pb-6 pt-2 space-y-2 border-t border-gray-100/50">
-                            <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                Dashboard
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('folders.index')} active={route().current('folders.index')}>
-                                Folder Saya
-                            </ResponsiveNavLink>
-                            <div className="pt-4 pb-1 border-t border-gray-100/50">
-                                <div className="px-4 mb-3">
-                                    <div className="text-xs font-bold text-indigo-500 uppercase tracking-widest">Account</div>
-                                    <div className="text-sm font-black text-gray-800 italic uppercase">{user.name}</div>
-                                </div>
-                                <ResponsiveNavLink href={route('profile.edit')}>Profile Settings</ResponsiveNavLink>
-                                <ResponsiveNavLink method="post" href={route('logout')} as="button" className="text-red-600">
-                                    Log Out System
+                    {/* Mobile Menu Content */}
+                    <div
+                        className={`${showingNavigationDropdown ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"} lg:hidden overflow-hidden transition-all duration-300 ease-in-out`}
+                    >
+                        <div className="px-4 pb-6 pt-2 space-y-1 border-t border-gray-100/50">
+                            {navItems.map((item) => (
+                                <ResponsiveNavLink
+                                    key={item.name}
+                                    href={item.href}
+                                    active={route().current(item.active)}
+                                    className="flex items-center gap-3"
+                                >
+                                    <span className="opacity-50">
+                                        {item.icon}
+                                    </span>
+                                    {item.name}
+                                </ResponsiveNavLink>
+                            ))}
+                            <div className="pt-4 mt-4 border-t border-gray-100/50">
+                                <ResponsiveNavLink href={route("profile.edit")}>
+                                    Pengaturan Akun
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    method="post"
+                                    href={route("logout")}
+                                    as="button"
+                                    className="text-red-600"
+                                >
+                                    Keluar
                                 </ResponsiveNavLink>
                             </div>
                         </div>
@@ -145,62 +241,56 @@ export default function AuthenticatedLayout({ header, children }) {
                 {header && (
                     <header className="mb-6 sm:mb-8 px-4 sm:px-6 lg:px-8">
                         <div className="mx-auto max-w-7xl">
-                            {/* Header box responsif padding */}
-                            <div className="rounded-[1.5rem] sm:rounded-[2rem] bg-indigo-600/5 p-6 sm:p-8 border border-indigo-100/50">
+                            <div className="rounded-[2rem] bg-indigo-600/5 p-6 sm:p-8 border border-indigo-100/50">
                                 {header}
                             </div>
                         </div>
                     </header>
                 )}
-
                 <main className="px-4 sm:px-6 lg:px-8 pb-12">
-                    <div className="mx-auto max-w-7xl">
-                        {children}
-                    </div>
+                    <div className="mx-auto max-w-7xl">{children}</div>
                 </main>
             </div>
 
-            {/* --- FOOTER SECTION --- */}
+            {/* --- FOOTER --- */}
             <footer className="bg-white border-t border-gray-100 pt-12 pb-8 mt-auto">
-                <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12 text-center md:text-left">
+                <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 text-center md:text-left">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12">
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 italic tracking-tighter mb-2 uppercase">
+                            <h2 className="text-2xl font-black text-gray-900 italic tracking-tighter mb-2 uppercase">
                                 Iras Alizubeer
                             </h2>
-                            <p className="text-gray-400 text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">
+                            <p className="text-gray-400 text-[10px] font-bold tracking-[0.2em] uppercase">
                                 Digital Creative & Developer.
                             </p>
                         </div>
-                        
-                        {/* Social Links Responsif gap */}
-                        <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
-                            {[
-                                { name: "Github", icon: <Github size={16} />, url: "https://github.com/r4scodee" },
-                                { name: "WhatsApp", icon: <MessageCircle size={16} />, url: "https://wa.me/6283150773059" },
-                                { name: "Instagram", icon: <Instagram size={16} />, url: "https://instagram.com/1rb4dh" }
-                            ].map((social, i) => (
-                                <a 
-                                    key={i} 
-                                    href={social.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className="text-gray-500 hover:text-indigo-600 transition-all flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest group"
-                                >
-                                    <span className="group-hover:scale-110 transition-transform">
-                                        {social.icon}
-                                    </span> 
-                                    <span className="hidden xs:inline">{social.name}</span>
-                                </a>
-                            ))}
+                        <div className="flex gap-6">
+                            <a
+                                href="https://github.com/r4scodee"
+                                target="_blank"
+                                className="text-gray-500 hover:text-indigo-600 transition-all"
+                            >
+                                <Github size={18} />
+                            </a>
+                            <a
+                                href="https://wa.me/6283150773059"
+                                target="_blank"
+                                className="text-gray-500 hover:text-indigo-600 transition-all"
+                            >
+                                <MessageCircle size={18} />
+                            </a>
+                            <a
+                                href="https://instagram.com/1rb4dh"
+                                target="_blank"
+                                className="text-gray-500 hover:text-indigo-600 transition-all"
+                            >
+                                <Instagram size={18} />
+                            </a>
                         </div>
                     </div>
-
-                    <div className="flex flex-col md:flex-row justify-between items-center border-t border-gray-100 pt-8 gap-4">
-                        <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase font-bold tracking-[0.3em] text-center">
-                            &copy; 2026 Task Planner. All rights reserved.
-                        </p>
-                        <div className="h-1 w-12 bg-indigo-100 rounded-full"></div>
+                    <div className="flex justify-between items-center border-t border-gray-100 pt-10 text-[10px] text-gray-400 uppercase font-bold tracking-[0.4em]">
+                        <p>Dibuat oleh Irbadh - 2026</p>
+                        <p>v1.7.0</p>
                     </div>
                 </div>
             </footer>

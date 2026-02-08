@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable
 {
@@ -47,8 +48,33 @@ class User extends Authenticatable
         ];
     }
 
+    public function tasks(): HasManyThrough
+    {
+        return $this->hasManyThrough(Task::class, Folder::class);
+    }
+
     public function folders(): HasMany
     {
         return $this->hasMany(Folder::class);
+    }
+
+    public function notes(): HasMany
+    { 
+        return $this->hasMany(Note::class);
+    }
+
+    public function budgets(): HasMany
+    {
+        return $this->hasMany(Budget::class);
+    }
+
+    public function habits(): HasMany
+    {
+        return $this->hasMany(Habit::class);
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
     }
 }

@@ -6,19 +6,19 @@ import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError'; 
 import PrimaryButton from '@/Components/PrimaryButton'; 
 import SecondaryButton from '@/Components/SecondaryButton';
+import { FolderPlus, Pencil, Trash2, Folder as FolderIcon, ArrowRight } from 'lucide-react';
 
 export default function Index({ auth, folders }) {
-const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [editingFolder, setEditingFolder] = useState(null);
 
-    // Tambahkan 'patch' di sini
     const { data, setData, post, patch, processing, errors, reset } = useForm({
         name: '',
     });
 
     const openEditModal = (folder) => {
         setEditingFolder(folder);
-        setData('name', folder.name); // Isi input dengan nama lama
+        setData('name', folder.name);
         setShowModal(true);
     };
 
@@ -42,86 +42,123 @@ const [showModal, setShowModal] = useState(false);
     };
 
     return (
-        <AuthenticatedLayout user={auth.user} header={
-            <div>
-                <p className="text-xs font-bold text-indigo-500 uppercase tracking-[0.2em] mb-1">Daftar</p>
-                <h2 className="text-2xl font-black italic text-gray-800 uppercase tracking-tighter">
-                    Folder Tugas Saya
-                </h2>
+        <AuthenticatedLayout 
+            user={auth.user} 
+            header={
+                <div>
+                    <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-[0.2em] mb-1">Koleksi</p>
+                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">
+                        Folder Saya
+                    </h2>
                 </div>
-        }>
-            {/* Modal Dinamis */}
+            }
+        >
+            <Head title="Folder Saya — Task Planner" />
+
+            {/* --- MODAL DINAMIS --- */}
             <Modal show={showModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-6 bg-white">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-tighter">
-                        {editingFolder ? 'Rename Folder' : 'New Folder'}
+                <form onSubmit={submit} className="p-8 bg-white rounded-3xl">
+                    <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight uppercase">
+                        {editingFolder ? 'Ubah Nama Folder' : 'Buat Folder Baru'}
                     </h2>
 
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] ml-1 mb-2 block">Nama Folder</label>
                     <TextInput 
                         value={data.name} 
                         onChange={(e) => setData('name', e.target.value)}
-                        className="w-full border-gray-200 focus:ring-indigo-500 rounded-full"
-                        placeholder="Project Name..."
+                        className="w-full border-slate-200 focus:ring-indigo-500 rounded-xl py-3 px-4 text-sm"
+                        placeholder="Contoh: Projek Laravel, Tugas Sekolah..."
                     />
-                    <InputError message={errors.name} className="mt-2" />
-                    <div className="mt-6 flex justify-end gap-3">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-                        <PrimaryButton disabled={processing} className="shadow-lg shadow-indigo-200">
-                            {editingFolder ? 'Update' : 'Create'}
+                    <InputError message={errors.name} className="mt-2 text-xs" />
+
+                    <div className="mt-8 flex justify-end gap-3">
+                        <SecondaryButton onClick={closeModal} className="rounded-xl border-none text-slate-500 font-bold uppercase tracking-widest text-[10px]">
+                            Batal
+                        </SecondaryButton>
+                        <PrimaryButton disabled={processing} className="rounded-xl bg-indigo-600 px-6 py-3 shadow-lg shadow-indigo-100">
+                            {editingFolder ? 'Simpan Perubahan' : 'Buat Folder'}
                         </PrimaryButton>
                     </div>
                 </form>
             </Modal>
 
-            <div className="py-12 max-w-7xl mx-auto px-6">
-                <div className="flex justify-end mb-8">
-                    <PrimaryButton onClick={() => setShowModal(true)}>+ Folder</PrimaryButton>
-                </div>
+            {/* --- MAIN CONTENT --- */}
+            <div className="py-12 bg-white rounded-[2rem]">
+                <div className="max-w-5xl mx-auto px-6">
+                    
+                    {/* Action Bar */}
+                    <div className="flex justify-between items-center mb-10">
+                        <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                            Total <span className="text-slate-900 font-bold">{folders.length} Folder</span> tersimpan
+                        </p>
+                        <button 
+                            onClick={() => setShowModal(true)}
+                            className="bg-slate-900 text-white px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200 flex items-center gap-2"
+                        >
+                            <FolderPlus size={16} />
+                            Tambah Folder
+                        </button>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {folders.map((folder) => (
-                        <div key={folder.id} className="`bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500">
-                            <div className="flex justify-between items-start">
-                                <Link href={route('folders.show', folder.id)} className="flex-1">
-                                    <h3 className="text-xl font-black text-gray-800 group-hover:text-indigo-600 transition-colors uppercase tracking-tighter">
+                    {/* Grid Folders */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {folders.map((folder) => (
+                            <div 
+                                key={folder.id} 
+                                className="group relative bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:border-indigo-200 hover:bg-white hover:shadow-xl hover:shadow-indigo-50/50 transition-all duration-300"
+                            >
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className="h-10 w-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-indigo-600 shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                        <FolderIcon size={20} />
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button 
+                                            onClick={() => openEditModal(folder)} 
+                                            className="p-2 text-slate-400 hover:text-indigo-600 transition-colors"
+                                            title="Ubah Nama"
+                                        >
+                                            <Pencil size={14} />
+                                        </button>
+                                        <button 
+                                            onClick={() => {
+                                                if (confirm('Hapus folder ini? Semua tugas di dalamnya akan hilang permanen.')) {
+                                                    router.delete(route('folders.destroy', folder.id));
+                                                }
+                                            }}
+                                            className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+                                            title="Hapus Folder"
+                                        >
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <Link href={route('folders.show', folder.id)} className="block">
+                                    <h3 className="text-lg font-bold text-slate-900 tracking-tight mb-1 truncate">
                                         {folder.name}
                                     </h3>
-                                    <p className="text-xs text-gray-400 font-bold tracking-widest mt-1">
-                                        {folder.tasks_count} TASKS
-                                    </p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            {folder.tasks_count} Item Tugas
+                                        </p>
+                                        <ArrowRight size={14} className="text-slate-200 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+                                    </div>
                                 </Link>
-                                
-                                {/* Container Tombol Aksi */}
-                                <div className="flex items-center gap-3">
-                                    {/* Button Edit */}
-                                    <button 
-                                        onClick={() => openEditModal(folder)} 
-                                        className="text-gray-300 hover:text-indigo-500 transition-colors p-1"
-                                        title="Edit Folder"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                        </svg>
-                                    </button>
-
-                                    {/* Button Delete Baru */}
-                                    <button 
-                                        onClick={() => {
-                                            if (confirm('Hapus folder ini? Semua task di dalamnya juga akan hilang.')) {
-                                                router.delete(route('folders.destroy', folder.id));
-                                            }
-                                        }}
-                                        className="text-gray-300 hover:text-red-500 transition-colors p-1"
-                                        title="Delete Folder"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+
+                        {/* Empty State */}
+                        {folders.length === 0 && (
+                            <div className="col-span-full py-20 text-center border-2 border-dashed border-slate-100 rounded-[2.5rem]">
+                                <FolderIcon className="mx-auto text-slate-200 mb-4" size={48} />
+                                <p className="text-slate-400 text-sm font-medium">
+                                    Belum ada folder. Yuk, buat folder pertama kamu!
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

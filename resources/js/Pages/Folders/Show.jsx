@@ -2,9 +2,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, router, Link } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState } from 'react';
+import { ChevronLeft, Plus, Check, Trash2, Pencil, ListTodo } from 'lucide-react';
 
 export default function Show({ auth, folder }) {
-    // State untuk Inline Edit
     const [editingTaskId, setEditingTaskId] = useState(null);
     const [tempTitle, setTempTitle] = useState('');
 
@@ -21,7 +21,6 @@ export default function Show({ auth, folder }) {
     };
 
     const handleUpdateTaskName = (task) => {
-        // Jika tidak ada perubahan atau kosong, batalkan edit
         if (tempTitle.trim() === '' || tempTitle === task.title) {
             setEditingTaskId(null);
             return;
@@ -39,61 +38,65 @@ export default function Show({ auth, folder }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4">
                     <Link 
                         href={route('folders.index')} 
-                        className="p-2 rounded-xl bg-transparent text-gray-400 hover:text-indigo-600 hover:bg-indigo-100 hover:shadow-md transition-all duration-300"
+                        className="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-all"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
+                        <ChevronLeft size={20} />
                     </Link>
                     <div>
-                        <h2 className="font-bold text-xl tracking-tight text-gray-800 uppercase ">
+                        <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-[0.2em] mb-0.5">Folder</p>
+                        <h2 className="font-bold text-2xl tracking-tight text-slate-900">
                             {folder.name}
                         </h2>
-                        <div className="h-0.5 w-8 bg-indigo-600 mt-1 rounded-full shadow-[0_0_8px_rgba(79,70,229,0.5)]"></div>
                     </div>
                 </div>
             }
         >
-            <Head title={`Tasks - ${folder.name}`} />
+            <Head title={`${folder.name} — Task Planner`} />
 
-            <div className="min-h-screen bg-white text-gray-800 py-12">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen bg-white py-12 rounded-[2rem]">
+                <div className="max-w-3xl mx-auto px-6">
                     
-                    {/* Input Area - Minimalist White with Indigo Glow */}
+                    {/* --- INPUT AREA: ELEGAN & MINIMALIS --- */}
                     <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-12"
+                        className="mb-16"
                     >
-                        <form onSubmit={submitTask} className="relative flex items-center bg-white border border-gray-200 rounded-2xl overflow-hidden focus-within:border-indigo-400 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.15)] transition-all duration-500">
+                        <form onSubmit={submitTask} className="relative group">
+                            <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400">
+                                <Plus size={20} />
+                            </div>
                             <input 
                                 type="text" 
-                                className="flex-1 bg-transparent border-none focus:ring-0 text-gray-700 px-6 py-4 text-base placeholder-gray-400 font-medium"
-                                placeholder="What is the next task?"
+                                className="w-full bg-slate-50 border-slate-100 rounded-2xl pl-14 pr-32 py-5 text-sm font-medium text-slate-700 placeholder-slate-400 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/5 transition-all duration-300"
+                                placeholder="Apa tugas kamu selanjutnya?"
                                 value={data.title}
                                 onChange={e => setData('title', e.target.value)}
                             />
-                            <button 
-                                className="mr-3 bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold hover:bg-indigo-500 hover:shadow-[0_10px_20px_rgba(99,102,241,0.4)] transition-all duration-300 active:scale-95 disabled:opacity-70"
-                                disabled={processing || !data.title}
-                            >
-                                {processing ? '...' : 'Save'}
-                            </button>
+                            <div className="absolute inset-y-2 right-2 flex">
+                                <button 
+                                    className="bg-indigo-600 text-white px-6 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all disabled:opacity-30 disabled:hover:bg-indigo-600"
+                                    disabled={processing || !data.title}
+                                >
+                                    {processing ? '...' : 'Simpan'}
+                                </button>
+                            </div>
                         </form>
-                        {errors.title && <p className="text-red-500 text-xs mt-2 ml-2 font-medium">{errors.title}</p>}
+                        {errors.title && <p className="text-red-500 text-[10px] mt-2 ml-4 font-bold uppercase tracking-wider">{errors.title}</p>}
                     </motion.div>
 
-                    {/* Task List Section */}
-                    <div className="mt-16"> 
-                        {/* Subjudul Daftar Tugas */}
-                        <div className="flex items-center gap-3 mb-6 ml-2">
-                            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">
+                    {/* --- TASK LIST SECTION --- */}
+                    <div className=""> 
+                        <div className="flex items-center justify-between mb-8 px-2">
+                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
                                 Daftar Tugas
                             </h3>
-                            <div className="h-px flex-1 bg-gray-100"></div> {/* Garis dekoratif tipis */}
+                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                                {folder.tasks.filter(t => t.is_completed).length} / {folder.tasks.length} Selesai
+                            </span>
                         </div>
 
                         <div className="space-y-3">
@@ -103,40 +106,53 @@ export default function Show({ auth, folder }) {
                                         key={task.id} 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, x: 20 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
                                         layout
                                         className={`group flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
                                             task.is_completed 
-                                            ? 'bg-gray-50 border-transparent opacity-50' 
-                                            : 'bg-white border-gray-100 hover:border-indigo-200 shadow-sm hover:shadow-md'
+                                            ? 'bg-slate-50/50 border-transparent' 
+                                            : 'bg-white border-slate-100 hover:border-indigo-200 hover:shadow-sm'
                                         }`}
                                     >
                                         <div className="flex items-center gap-4 flex-1">
-                                            <input 
-                                                type="checkbox" 
-                                                checked={task.is_completed} 
-                                                onChange={() => router.patch(route('tasks.update', task.id), {}, { preserveScroll: true })}
-                                                className="h-5 w-5 rounded-lg border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                            />
+                                            <div className="relative flex items-center">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={task.is_completed} 
+                                                    onChange={() => router.patch(route('tasks.update', task.id), {}, { preserveScroll: true })}
+                                                    className="h-5 w-5 rounded-lg border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer transition-all"
+                                                />
+                                            </div>
 
-                                            {/* Tampilan Input vs Teks */}
                                             {editingTaskId === task.id ? (
                                                 <input 
                                                     autoFocus
-                                                    className="flex-1 border-b-2 border-indigo-500 border-t-0 border-x-0 focus:ring-0 p-0 me-2 text-base text-gray-700 bg-transparent font-medium"
+                                                    className="flex-1 border-none focus:ring-0 p-0 text-sm text-slate-700 bg-transparent font-bold tracking-tight"
                                                     value={tempTitle}
                                                     onChange={(e) => setTempTitle(e.target.value)}
                                                     onBlur={() => handleUpdateTaskName(task)}
                                                     onKeyDown={(e) => e.key === 'Enter' && handleUpdateTaskName(task)}
                                                 />
                                             ) : (
-                                                <span className={`text-base flex-1 transition-all ${task.is_completed ? 'line-through text-gray-400' : 'text-gray-700 font-medium'}`}>
+                                                <span 
+                                                    onClick={() => {
+                                                        if (!task.is_completed) {
+                                                            setEditingTaskId(task.id); 
+                                                            setTempTitle(task.title);
+                                                        }
+                                                    }}
+                                                    className={`text-sm flex-1 cursor-text transition-all ${
+                                                        task.is_completed 
+                                                        ? 'line-through text-slate-300 font-medium' 
+                                                        : 'text-slate-600 font-bold tracking-tight'
+                                                    }`}
+                                                >
                                                     {task.title}
                                                 </span>
                                             )}
                                         </div>
                                         
-                                        {/* Tombol Aksi (Edit & Hapus) */}
+                                        {/* Actions */}
                                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button 
                                                 onClick={() => {
@@ -149,38 +165,34 @@ export default function Show({ auth, folder }) {
                                                 }}
                                                 className={`p-2 rounded-lg transition-all ${
                                                     editingTaskId === task.id 
-                                                    ? 'text-green-600 bg-green-50 shadow-[0_0_10px_rgba(34,197,94,0.3)]' 
-                                                    : 'text-gray-300 hover:text-indigo-500 hover:bg-indigo-50'
+                                                    ? 'text-emerald-600 bg-emerald-50 shadow-sm' 
+                                                    : 'text-slate-300 hover:text-indigo-600 hover:bg-slate-100'
                                                 }`}
+                                                title={editingTaskId === task.id ? 'Simpan Perubahan' : 'Ubah Tugas'}
                                             >
                                                 {editingTaskId === task.id ? (
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                    </svg>
+                                                    <Check size={14} strokeWidth={3} /> 
                                                 ) : (
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                    </svg>
+                                                    <Pencil size={14} />
                                                 )}
                                             </button>
 
                                             <button 
-                                                onClick={() => confirm('Remove task?') && router.delete(route('tasks.destroy', task.id), { preserveScroll: true })} 
-                                                className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                                onClick={() => confirm('Hapus tugas ini?') && router.delete(route('tasks.destroy', task.id), { preserveScroll: true })} 
+                                                className="p-2 text-slate-300 hover:text-red-500 transition-colors"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
 
-                            {/* Empty State */}
+                            {/* --- EMPTY STATE --- */}
                             {folder.tasks.length === 0 && (
-                                <div className="text-center py-20 bg-gray-50/50 rounded-[2rem] border border-dashed border-gray-200">
-                                    <p className="text-gray-400 text-xs uppercase tracking-[0.2em] font-bold">No tasks recorded</p>
+                                <div className="text-center py-20 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
+                                    <ListTodo className="mx-auto text-slate-200 mb-4" size={40} />
+                                    <p className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Belum ada tugas di folder ini</p>
                                 </div>
                             )}
                         </div>

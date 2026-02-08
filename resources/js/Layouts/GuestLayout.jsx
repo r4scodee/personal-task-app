@@ -57,7 +57,7 @@ export default function GuestLayout({ children }) {
                     </motion.div>
 
                     <div className="absolute bottom-12 flex items-center gap-2 text-indigo-200/50 font-bold tracking-[0.3em] text-[10px] uppercase">
-                        <Sparkles size={14} /> Organized Universe v1.0
+                        <Sparkles size={14} /> Organized Universe v1.7.0
                     </div>
                 </div>
             </div>
