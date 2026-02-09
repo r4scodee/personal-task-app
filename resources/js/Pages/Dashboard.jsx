@@ -70,7 +70,7 @@ export default function Dashboard({ auth, stats, recent_folders, budget_stats, t
                 </div>
             }
         >
-            <Head title="Command Center — Task Planner" />
+            <Head title="Dasboard Panel — Task Planner" />
 
             <div className="py-12 bg-[#f8fafc]">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
