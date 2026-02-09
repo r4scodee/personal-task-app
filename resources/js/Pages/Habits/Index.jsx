@@ -58,7 +58,7 @@ export default function Index({ auth, habits }) {
             header={
                 <div>
                     <p className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Self Discipline</p>
-                    <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic">Habit Tracker</h2>
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">Habit Tracker</h2>
                 </div>
             }
         >
