@@ -23,10 +23,24 @@ import {
 } from "lucide-react";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Welcome({ auth }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 20) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const navLinks = [
         { name: "Beranda", href: "#beranda" },
@@ -35,12 +49,12 @@ export default function Welcome({ auth }) {
         { name: "Keunggulan", href: "#benefit" },
         { name: "FAQ", href: "#faq" },
         { name: "Testimoni", href: "#testimoni" },
-        { name: "Kontak", href: "#kontak" }
+        { name: "Kontak", href: "#kontak" },
     ];
 
     const FloatingIcon = ({ icon: Icon, className, style }) => {
         return (
-            <div 
+            <div
                 className={`absolute p-4 rounded-3xl bg-white/40 backdrop-blur-md border border-white/50 shadow-xl shadow-indigo-500/10 animate-float ${className}`}
                 style={style}
             >
@@ -64,9 +78,21 @@ export default function Welcome({ auth }) {
             `}</style>
 
             {/* --- NAVBAR --- */}
-            <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-7xl">
-                <div className="bg-white/60 backdrop-blur-sm border border-white/40 shadow-lg shadow-indigo-100/20 px-5 py-2 sm:py-3 rounded-[2rem] transition-all duration-300">
-                    <div className="flex items-center justify-between">
+            <nav
+                className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
+                    scrolled
+                        ? "top-4 w-[90%] max-w-7xl"
+                        : "top-0 w-[90%] max-w-7xl"
+                }`}
+            >
+                <div
+                    className={`transition-all duration-500 ${
+                        scrolled
+                            ? "bg-white/60 backdrop-blur-sm border border-white/40 shadow-xl shadow-indigo-100/20 px-4 py-2.5 rounded-[2rem]"
+                            : "bg-tranparent backdrop-blur-sm px-4 py-6 border-transparent shadow-none rounded-none"
+                    }`}
+                >
+                    <div className="flex items-center justify-between gap-2">
                         {/* 1. Brand / Logo */}
                         <div className="flex shrink-0 items-center">
                             <Link
@@ -74,15 +100,19 @@ export default function Welcome({ auth }) {
                                 className="group flex items-center gap-2 sm:gap-3"
                             >
                                 <div className="relative flex items-center justify-center">
-                                    <div className="absolute inset-0 bg-indigo-500/20 blur-lg rounded-full group-hover:bg-indigo-500/40 transition-all duration-500"></div>
-                                    <Command className="relative w-6 h-6 sm:w-8 sm:h-8 text-indigo-600 stroke-[2.5px] transform group-hover:rotate-12 transition-transform duration-500" />
+                                    <div
+                                        className={`absolute inset-0 blur-lg rounded-full transition-all duration-500 ${scrolled ? "bg-indigo-500/20 group-hover:bg-indigo-500/40" : "bg-transparent"}`}
+                                    ></div>
+                                    <Command
+                                        className="relative w-6 h-6 sm:w-8 sm:h-8 stroke-[2.5px] transform group-hover:rotate-12 transition-all duration-500 text-indigo-600"
+                                    />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h1 className="text-sm sm:text-xl font-black italic tracking-tighter text-gray-900 uppercase leading-none">
+                                    <h1
+                                        className="text-sm sm:text-xl font-black italic tracking-tighter uppercase leading-none text-gray-900"
+                                    >
                                         TASK{" "}
-                                        <span className="text-indigo-600">
-                                            .
-                                        </span>{" "}
+                                        <span className="text-indigo-600">.</span>{" "}
                                         PLANNER
                                     </h1>
                                 </div>
@@ -90,17 +120,23 @@ export default function Welcome({ auth }) {
                         </div>
 
                         {/* 2. Navigation Links (Desktop Only) */}
-                        <div className="hidden md:flex items-center gap-4 lg:gap-6">
+                        <div className="hidden md:flex items-center gap-6 lg:gap-8">
                             {navLinks.map((item) => (
                                 <a
                                     key={item.name}
                                     href={item.href}
-                                    className="text-[13px] font-bold uppercase tracking-widest text-gray-500 hover:text-indigo-600 transition-colors relative group"
+                                    className={`text-[13px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative group ${
+                                        scrolled
+                                            ? "text-gray-500 hover:text-indigo-600"
+                                            : "text-gray-700 hover:text-indigo-600"
+                                    }`}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        document.querySelector(item.href)?.scrollIntoView({
-                                            behavior: 'smooth'
-                                        });
+                                        document
+                                            .querySelector(item.href)
+                                            ?.scrollIntoView({
+                                                behavior: "smooth",
+                                            });
                                     }}
                                 >
                                     {item.name}
@@ -108,28 +144,20 @@ export default function Welcome({ auth }) {
                             ))}
                         </div>
 
-                        {/* 3. Action Area (Auth + Hamburger) */}
-                        <div className="flex items-center gap-2">
+                        {/* 3. Action Area - Benerin responsif di sini */}
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                             <Link
-                                href={
-                                    auth.user
-                                        ? route("dashboard")
-                                        : route("login")
-                                }
-                                className="px-4 sm:px-6 py-2 sm:py-2.5 my-0.5 bg-indigo-600 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-2xl hover:bg-indigo-500 transition-all shadow-md shadow-indigo-200 hover:scale-105 active:scale-95"
+                                href={auth.user ? route("dashboard") : route("login")}
+                                className="px-4 sm:px-5 py-2 sm:py-2.5 text-[9px] sm:text-xs font-black uppercase tracking-widest rounded-xl sm:rounded-2xl transition-all duration-500 hover:scale-105 active:scale-95 bg-indigo-600 text-white shadow-lg shadow-indigo-200 whitespace-nowrap"
                             >
                                 {auth.user ? "Dashboard" : "Login"}
                             </Link>
 
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                className="md:hidden p-2 text-gray-600 hover:bg-indigo-50 rounded-xl transition-colors"
+                                className={`md:hidden p-1.5 sm:p-2 rounded-xl transition-colors ${scrolled ? "text-gray-600 hover:bg-indigo-50" : "text-gray-900 bg-white/20 backdrop-blur-sm"}`}
                             >
-                                {isMenuOpen ? (
-                                    <X size={20} />
-                                ) : (
-                                    <Menu size={20} />
-                                )}
+                                {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
                             </button>
                         </div>
                     </div>
@@ -148,21 +176,8 @@ export default function Welcome({ auth }) {
                                         <a
                                             key={item.name}
                                             href={item.href}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                setIsMenuOpen(false); 
-
-                                                setTimeout(() => {
-                                                    const element = document.querySelector(item.href);
-                                                    if (element) {
-                                                        element.scrollIntoView({
-                                                            behavior: "smooth",
-                                                            block: "start",
-                                                        });
-                                                    }
-                                                }, 100); 
-                                            }}
-                                            className="text-xs font-bold uppercase tracking-[0.2em] text-gray-600 hover:text-indigo-600 px-2 transition-colors duration-200"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 hover:text-indigo-600 px-2 transition-colors"
                                         >
                                             {item.name}
                                         </a>
@@ -176,8 +191,10 @@ export default function Welcome({ auth }) {
 
             <div className="bg-white font-sans selection:bg-indigo-500/30 text-gray-900">
                 {/* --- HERO --- */}
-                <section id="beranda" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-
+                <section
+                    id="beranda"
+                    className="relative min-h-screen flex items-center justify-center overflow-hidden"
+                >
                     <div className="absolute inset-0 z-0 pointer-events-none">
                         <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/50 via-transparent to-transparent" />
                         <div className="absolute top-1/4 left-1/4 w-[28rem] h-[28rem] rounded-full bg-indigo-500/10 blur-[120px] animate-pulse" />
@@ -185,10 +202,30 @@ export default function Welcome({ auth }) {
                     </div>
 
                     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                        <FloatingIcon icon={Database} className="top-20 left-[10%] text-indigo-500/50" delay="0s" duration="10s" />
-                        <FloatingIcon icon={ShieldCheck} className="top-32 right-[25%] text-slate-400/50" delay="2s" duration="12s" />
-                        <FloatingIcon icon={Cpu} className="top-[45%] left-[5%] text-indigo-400/40" delay="1s" duration="9s" />
-                        <FloatingIcon icon={Layers} className="bottom-40 right-[10%] text-indigo-600/30" delay="3s" duration="11s" />
+                        <FloatingIcon
+                            icon={Database}
+                            className="top-20 left-[10%] text-indigo-500/50"
+                            delay="0s"
+                            duration="10s"
+                        />
+                        <FloatingIcon
+                            icon={ShieldCheck}
+                            className="top-32 right-[25%] text-slate-400/50"
+                            delay="2s"
+                            duration="12s"
+                        />
+                        <FloatingIcon
+                            icon={Cpu}
+                            className="top-[45%] left-[5%] text-indigo-400/40"
+                            delay="1s"
+                            duration="9s"
+                        />
+                        <FloatingIcon
+                            icon={Layers}
+                            className="bottom-40 right-[10%] text-indigo-600/30"
+                            delay="3s"
+                            duration="11s"
+                        />
                     </div>
 
                     <div className="relative z-10 container mx-auto px-6 text-center">
@@ -222,8 +259,8 @@ export default function Welcome({ auth }) {
                                 <span className="text-indigo-600 font-bold">
                                     Pusat Kendali
                                 </span>{" "}
-                                personal kamu untuk mengelola hobi, projek koding, 
-                                hingga jadwal kuliah dalam satu tempat.
+                                personal kamu untuk mengelola hobi, projek
+                                koding, hingga jadwal kuliah dalam satu tempat.
                             </p>
 
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -271,25 +308,33 @@ export default function Welcome({ auth }) {
                                 { label: "Banyak Folder" },
                                 { label: "Edit Langsung" },
                                 { label: "UI Minimalis" },
-                                { label: "Animasi Halus" }
+                                { label: "Animasi Halus" },
                             ].map((item, i) => (
-                                <div key={i} className="flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em]">
-                                    <CheckCircle size={14} className="text-indigo-500" />
+                                <div
+                                    key={i}
+                                    className="flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em]"
+                                >
+                                    <CheckCircle
+                                        size={14}
+                                        className="text-indigo-500"
+                                    />
                                     {item.label}
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="absolute bottom-10 inset-x-0 flex justify-center animate-bounce text-gray-400">
+                    <div className="absolute bottom-10 md:bottom-5 inset-x-0 flex justify-center animate-bounce text-gray-400">
                         <ArrowDown size={24} />
                     </div>
                 </section>
 
                 {/* --- MODULES --- */}
-                <section id="modul" className="py-24 bg-white border-t border-slate-50 text-center">
+                <section
+                    id="modul"
+                    className="py-24 bg-white border-t border-slate-50 text-center"
+                >
                     <div className="max-w-6xl mx-auto px-10">
-                        
                         {/* Header Section */}
                         <div className="mb-16">
                             <h2 className="text-sm font-semibold text-indigo-600 tracking-[0.2em] uppercase mb-3">
@@ -300,7 +345,7 @@ export default function Welcome({ auth }) {
                             </p>
                         </div>
 
-                        <div className="max-w-5xl mx-auto"> 
+                        <div className="max-w-5xl mx-auto">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                                 {[
                                     {
@@ -311,7 +356,9 @@ export default function Welcome({ auth }) {
                                     {
                                         title: "Pantau Tugas",
                                         desc: "Update tugas secara real-time tanpa reload halaman untuk alur kerja yang jauh lebih cepat.",
-                                        icon: <CheckCircle className="w-6 h-6" />,
+                                        icon: (
+                                            <CheckCircle className="w-6 h-6" />
+                                        ),
                                     },
                                     {
                                         title: "Tampilan Bersih",
@@ -326,11 +373,11 @@ export default function Welcome({ auth }) {
                                         <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-indigo-600 mb-6 border border-slate-100 group-hover:bg-indigo-600 group-hover:text-white transition-colors mx-auto shadow-sm">
                                             {feature.icon}
                                         </div>
-                                        
+
                                         <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">
                                             {feature.title}
                                         </h3>
-                                        
+
                                         <p className="text-slate-500 leading-relaxed text-sm font-medium">
                                             {feature.desc}
                                         </p>
@@ -342,7 +389,10 @@ export default function Welcome({ auth }) {
                 </section>
 
                 {/* --- CARA KERJA (LIST CARD) --- */}
-                <section id="cara-kerja" className="py-24 px-6 border-t border-slate-50">
+                <section
+                    id="cara-kerja"
+                    className="py-24 px-6 border-t border-slate-50"
+                >
                     <div className="max-w-5xl mx-auto">
                         <div className="mb-16">
                             <span className="text-indigo-600 font-semibold text-sm tracking-widest uppercase">
@@ -398,7 +448,10 @@ export default function Welcome({ auth }) {
                 </section>
 
                 {/* --- MENGAPA PILIH KAMI & BENEFIT --- */}
-                <section id="benefit" className="py-24 px-6 bg-slate-50 text-slate-900 rounded-[3rem] mx-10 border border-slate-100">
+                <section
+                    id="benefit"
+                    className="py-24 px-6 bg-slate-50 text-slate-900 rounded-[3rem] mx-10 border border-slate-100"
+                >
                     <div className="max-w-5xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <div>
@@ -597,7 +650,6 @@ export default function Welcome({ auth }) {
                 <section className="py-24 px-6 bg-white">
                     <div className="max-w-5xl mx-auto">
                         <div className="relative py-20 px-8 md:px-16 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 to-blue-400 text-white shadow-2xl shadow-indigo-100 overflow-hidden text-center">
-                            
                             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
                             <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-indigo-400/20 rounded-full blur-3xl" />
 
@@ -605,9 +657,11 @@ export default function Welcome({ auth }) {
                                 <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
                                     Siap Beresin <br /> Semua Tugas Lo?
                                 </h2>
-                                
+
                                 <p className="text-indigo-50 mb-10 max-w-md mx-auto text-lg leading-relaxed">
-                                    Gabung sekarang dan mulai rapihin folder tugas lo. Gak perlu ribet, cuma butuh 30 detik buat mulai.
+                                    Gabung sekarang dan mulai rapihin folder
+                                    tugas lo. Gak perlu ribet, cuma butuh 30
+                                    detik buat mulai.
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -617,14 +671,16 @@ export default function Welcome({ auth }) {
                                     >
                                         Daftar Gratis Sekarang
                                     </Link>
-                                    
+
                                     <a
                                         href="#modul"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            document.querySelector("#modul")?.scrollIntoView({
-                                                behavior: "smooth",
-                                            });
+                                            document
+                                                .querySelector("#modul")
+                                                ?.scrollIntoView({
+                                                    behavior: "smooth",
+                                                });
                                         }}
                                         className="w-full sm:w-auto px-10 py-4 rounded-xl font-semibold text-white hover:bg-white/10 transition-all text-center"
                                     >
@@ -637,7 +693,10 @@ export default function Welcome({ auth }) {
                 </section>
 
                 {/* --- FOOTER --- */}
-                <footer id="kontak" className="bg-white border-t border-gray-100 pt-24 pb-12">
+                <footer
+                    id="kontak"
+                    className="bg-white border-t border-gray-100 pt-24 pb-12"
+                >
                     <div className="container mx-auto px-6 text-center md:text-left">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
                             <div>
