@@ -413,7 +413,7 @@ export default function Welcome({ auth }) {
                                     1. Buat Folder
                                 </h3>
                                 <p className="text-slate-500 text-sm leading-relaxed">
-                                    Kelompokkan tugas lo biar gak nyampur.
+                                    Kelompokkan tugas kamu biar gak nyampur.
                                     Sekolah, kerjaan, atau projek sampingan.
                                 </p>
                             </div>
@@ -426,7 +426,7 @@ export default function Welcome({ auth }) {
                                     2. Tambah Task
                                 </h3>
                                 <p className="text-slate-500 text-sm leading-relaxed">
-                                    Tulis tugas lo, set prioritasnya (Low,
+                                    Tulis tugas kamu, set prioritasnya (Low,
                                     Medium, High). Beresin satu-satu.
                                 </p>
                             </div>
@@ -463,7 +463,7 @@ export default function Welcome({ auth }) {
                                     Kami.
                                 </h2>
                                 <p className="text-slate-400 mb-8 leading-relaxed">
-                                    Kami buat TaskPlanner buat lo yang bosen
+                                    Kami buat TaskPlanner buat kamu yang bosen
                                     sama aplikasi yang terlalu banyak fitur tapi
                                     malah bikin bingung.
                                 </p>
@@ -479,7 +479,7 @@ export default function Welcome({ auth }) {
                                                 Tugas Beres Lebih Cepet
                                             </span>
                                             <span className="text-slate-400 text-sm">
-                                                Flow yang simple bikin lo gak
+                                                Flow yang simple bikin kamu gak
                                                 buang waktu buat setting
                                                 ini-itu.
                                             </span>
@@ -548,7 +548,7 @@ export default function Welcome({ auth }) {
                                 </h4>
                                 <p className="text-slate-500 text-sm leading-relaxed">
                                     Iya bro, buat fitur utama kayak bikin folder
-                                    dan task selamanya gratis buat lo.
+                                    dan task selamanya gratis buat kamu.
                                 </p>
                             </div>
                             <div className="p-6 border-b border-slate-100">
@@ -556,18 +556,18 @@ export default function Welcome({ auth }) {
                                     Bisa diakses di HP?
                                 </h4>
                                 <p className="text-slate-500 text-sm leading-relaxed">
-                                    Aman! Web ini udah mobile-friendly, jadi lo
+                                    Aman! Web ini udah mobile-friendly, jadi kamu
                                     bisa buka di browser HP mana aja.
                                 </p>
                             </div>
                             <div className="p-6 border-b border-slate-100">
                                 <h4 className="font-bold text-lg mb-2">
-                                    Data gue aman?
+                                    Data aku aman?
                                 </h4>
                                 <p className="text-slate-500 text-sm leading-relaxed">
-                                    Kita pake Supabase buat simpen data lo.
-                                    Enkripsinya mantap, jadi cuma lo yang bisa
-                                    liat isi tugas lo.
+                                    Kita pake Supabase buat simpen data kamu.
+                                    Enkripsinya mantap, jadi cuma kamu yang bisa
+                                    liat isi tugas kamu.
                                 </p>
                             </div>
                         </div>
@@ -592,7 +592,7 @@ export default function Welcome({ auth }) {
                                     ))}
                                 </div>
                                 <p className="text-slate-600 text-sm mb-6 leading-relaxed italic">
-                                    "Simpel banget parah. Gue pake buat list
+                                    "Simpel banget parah. Aku pake buat list
                                     tugas coding Laravel tiap hari, ngebantu
                                     fokus."
                                 </p>
@@ -612,7 +612,7 @@ export default function Welcome({ auth }) {
                                     ))}
                                 </div>
                                 <p className="text-slate-600 text-sm mb-6 leading-relaxed italic">
-                                    "Gak berat pas dibuka. Gue nyimpen jadwal
+                                    "Gak berat pas dibuka. Aku nyimpen jadwal
                                     market day sekolah di sini, gak ada yang
                                     kelewat."
                                 </p>
@@ -655,12 +655,12 @@ export default function Welcome({ auth }) {
 
                             <div className="relative z-10">
                                 <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
-                                    Siap Beresin <br /> Semua Tugas Lo?
+                                    Siap Beresin <br /> Semua Tugas Kamu?
                                 </h2>
 
                                 <p className="text-indigo-50 mb-10 max-w-md mx-auto text-lg leading-relaxed">
                                     Gabung sekarang dan mulai rapihin folder
-                                    tugas lo. Gak perlu ribet, cuma butuh 30
+                                    tugas kamu. Gak perlu ribet, cuma butuh 30
                                     detik buat mulai.
                                 </p>
 
