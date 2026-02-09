@@ -122,11 +122,7 @@ export default function Index({ auth, folders }) {
                                             <Pencil size={14} />
                                         </button>
                                         <button 
-                                            onClick={() => {
-                                                if (confirm('Hapus folder ini? Semua tugas di dalamnya akan hilang permanen.')) {
-                                                    router.delete(route('folders.destroy', folder.id));
-                                                }
-                                            }}
+                                            onClick={() => router.delete(route('folders.destroy', folder.id))} 
                                             className="p-2 text-slate-400 hover:text-red-500 transition-colors"
                                             title="Hapus Folder"
                                         >

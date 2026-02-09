@@ -135,7 +135,7 @@ export default function Index({ auth, events }) {
                                     </div>
                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
                                         <button onClick={() => openEditModal(event)} className="p-2 text-slate-400 hover:text-indigo-600"><Pencil size={16} /></button>
-                                        <button onClick={() => confirm('Hapus agenda?') && router.post(route('events.destroy', event.id))} className="p-2 text-slate-400 hover:text-rose-500"><Trash2 size={16} /></button>
+                                        <button onClick={() => router.post(route('events.destroy', event.id))} className="p-2 text-slate-400 hover:text-rose-500"><Trash2 size={16} /></button>
                                     </div>
                                 </div>
                             </div>

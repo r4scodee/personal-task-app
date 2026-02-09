@@ -290,7 +290,7 @@ export default function Index({ auth, budgets, folders, stats }) {
                                                 <button onClick={() => openEditModal(budget)} className="p-2.5 text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
                                                     <Pencil size={14} />
                                                 </button>
-                                                <button onClick={() => confirm("Hapus?") && router.delete(route("budgets.destroy", budget.id))} className="p-2.5 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
+                                                <button onClick={() => router.delete(route("budgets.destroy", budget.id))} className="p-2.5 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
                                                     <Trash2 size={14} />
                                                 </button>
                                             </div>

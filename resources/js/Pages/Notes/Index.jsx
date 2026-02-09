@@ -137,7 +137,7 @@ export default function Index({ auth, notes }) {
                                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button onClick={() => openEditModal(note)} className="p-2 text-slate-400 hover:text-indigo-600"><Pencil size={14} /></button>
                                             <button 
-                                                onClick={() => confirm('Hapus catatan ini?') && router.delete(route('notes.destroy', note.id))}
+                                                onClick={() => router.delete(route('notes.destroy', note.id))}
                                                 className="p-2 text-slate-400 hover:text-red-500"
                                             >
                                                 <Trash2 size={14} />

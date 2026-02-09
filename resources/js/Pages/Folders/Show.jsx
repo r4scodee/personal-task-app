@@ -178,7 +178,7 @@ export default function Show({ auth, folder }) {
                                             </button>
 
                                             <button 
-                                                onClick={() => confirm('Hapus tugas ini?') && router.delete(route('tasks.destroy', task.id), { preserveScroll: true })} 
+                                                onClick={() => router.delete(route('tasks.destroy', task.id), { preserveScroll: true })} 
                                                 className="p-2 text-slate-300 hover:text-red-500 transition-colors"
                                             >
                                                 <Trash2 size={14} />
