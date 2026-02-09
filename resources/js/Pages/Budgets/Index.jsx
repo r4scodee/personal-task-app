@@ -74,7 +74,7 @@ export default function Index({ auth, budgets, folders, stats }) {
             header={
                 <div>
                     <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-[0.2em] mb-1">Keuangan</p>
-                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Anggaran Projek</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Tabungan saya</h2>
                 </div>
                 }
         >
