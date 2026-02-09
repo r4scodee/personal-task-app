@@ -8,6 +8,10 @@ class Habit extends Model
 {
     protected $fillable = ['user_id', 'name', 'icon', 'streak', 'last_completed_at'];
 
+    protected $casts = [
+        'last_completed_at' => 'date'
+    ];
+
     public function isCompletedToday()
     {
         return $this->last_completed_at == now()->toDateString();

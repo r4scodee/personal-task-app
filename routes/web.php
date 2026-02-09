@@ -56,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // MODUL KEBIASAAN (Habits)
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::post('/habits/store', [HabitController::class, 'store'])->name('habits.store');
-    Route::post('/habits/complete/{habit}', [HabitController::class, 'complete'])->name('habits.complete');
+    Route::post('/habits/{habit}/complete', [HabitController::class, 'complete'])->name('habits.complete');
     Route::delete('/habits/{habit}', [HabitController::class, 'destroy'])->name('habits.destroy');      
 
     // MODUL JADWAL (Events)
