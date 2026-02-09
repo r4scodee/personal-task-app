@@ -34,8 +34,10 @@ export default function Index({ auth, habits }) {
 
     const isCompletedToday = (lastDate) => {
         if (!lastDate) return false;
-        const today = new Date().toLocaleDateString('en-CA'); // Format YYYY-MM-DD
-        return lastDate.startsWith(today);
+        const today = new Date().toLocaleDateString('en-CA'); 
+        const completedDate = new Date(lastDate).toLocaleDateString('en-CA');
+
+        return today === completedDate;
     };
 
     const submit = (e) => {
@@ -124,7 +126,7 @@ export default function Index({ auth, habits }) {
                     {/* Habits Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {habits.map((habit) => {
-                            const done = isCompletedToday(habit.last_completed_at);
+                            const done = habit.is_completed_today;
                             return (
                                 <div key={habit.id} className={`group p-6 rounded-[2rem] border transition-all duration-300 ${done ? "bg-emerald-50/50 border-emerald-100" : "bg-slate-50 border-slate-100 hover:bg-white hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-50/50"}`}>
                                     <div className="flex justify-between items-start mb-6">
