@@ -180,7 +180,7 @@ export default function Index({ auth, habits }) {
                                 <Info size={16} />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Pro Tip</span>
                             </div>
-                            <h3 className="text-xl font-bold mb-2 uppercase italic tracking-tighter">Jangan Takut Gagal, Irbadh!</h3>
+                            <h3 className="text-xl font-bold mb-2 uppercase italic tracking-tighter">Jangan Takut Gagal, {auth.user.name}!</h3>
                             <p className="text-indigo-100 text-sm leading-relaxed max-w-xl">
                                 Membangun kebiasaan baru memang berat di awal. Jika streak terputus, jangan menyerah. Mulai lagi hari ini, dan jadilah 1% lebih baik setiap harinya.
                             </p>
