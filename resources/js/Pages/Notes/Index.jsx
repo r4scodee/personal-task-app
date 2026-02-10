@@ -63,7 +63,7 @@ export default function Index({ auth, notes }) {
 
             {/* --- MODAL CATATAN --- */}
             <Modal show={showModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-8 bg-white rounded-3xl">
+                <form onSubmit={submit} className="p-8 bg-white rounded-3xl overflow-hidden relative">
                     <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight uppercase">
                         {editingNote ? 'Edit Catatan' : 'Buat Catatan Baru'}
                     </h2>

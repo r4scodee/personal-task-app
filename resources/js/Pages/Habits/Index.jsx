@@ -82,7 +82,7 @@ export default function Index({ auth, habits }) {
                                 value={data.name}
                                 onChange={(e) => setData("name", e.target.value)}
                                 className="w-full rounded-2xl border-slate-200"
-                                placeholder="Misal: Coding Laravel, Push Up..."
+                                placeholder="Misal: Coding , Jogging..."
                                 required
                                 isFocused
                             />
@@ -95,7 +95,7 @@ export default function Index({ auth, habits }) {
                             Batal
                         </SecondaryButton>
                         <PrimaryButton disabled={processing} className="bg-slate-900 rounded-2xl px-8 py-4 shadow-xl">
-                            <span className="text-[10px] font-black uppercase tracking-widest">Mulai Sekarang</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-white">Mulai Sekarang</span>
                         </PrimaryButton>
                     </div>
                 </form>

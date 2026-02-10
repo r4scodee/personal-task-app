@@ -16,7 +16,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <div className="flex items-center gap-5 pt-24 lg:pt-0">
+                <div className="flex items-center gap-5 pt-0">
                     <Link
                         href={route("dashboard")}
                         className="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-all"

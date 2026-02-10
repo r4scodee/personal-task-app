@@ -57,7 +57,7 @@ export default function Index({ auth, folders }) {
 
             {/* --- MODAL DINAMIS --- */}
             <Modal show={showModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-8 bg-white rounded-3xl">
+                <form onSubmit={submit} className="p-8 bg-white rounded-3xl overflow-hidden relative">
                     <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight uppercase">
                         {editingFolder ? 'Ubah Nama Folder' : 'Buat Folder Baru'}
                     </h2>
@@ -67,7 +67,7 @@ export default function Index({ auth, folders }) {
                         value={data.name} 
                         onChange={(e) => setData('name', e.target.value)}
                         className="w-full border-slate-200 focus:ring-indigo-500 rounded-xl py-3 px-4 text-sm"
-                        placeholder="Contoh: Projek Laravel, Tugas Sekolah..."
+                        placeholder="Contoh: Projek Akhir, Tugas Sekolah..."
                     />
                     <InputError message={errors.name} className="mt-2 text-xs" />
 

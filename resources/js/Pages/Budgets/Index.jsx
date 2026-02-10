@@ -102,7 +102,7 @@ export default function Index({ auth, budgets, folders, stats }) {
                                     setData("target_name", e.target.value)
                                 }
                                 className="w-full rounded-2xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                placeholder="Contoh: Beli Monitor 4K / Tabungan Pemalang"
+                                placeholder="Contoh: Beli Monitor 4K / Bensin Motor..."
                                 required
                             />
                             <InputError

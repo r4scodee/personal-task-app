@@ -61,7 +61,7 @@ export default function Index({ auth, events }) {
 
             {/* --- MODAL EVENT --- */}
             <Modal show={showModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-8 bg-white rounded-3xl">
+                <form onSubmit={submit} className="p-8 bg-white rounded-3xl overflow-hidden relative">
                     <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight uppercase">
                         {editingEvent ? 'Edit Agenda' : 'Tambah Agenda Baru'}
                     </h2>
