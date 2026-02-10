@@ -112,7 +112,7 @@ export default function Index({ auth, habits }) {
                             </div>
                             <div>
                                 <h3 className="text-lg font-black text-slate-900 leading-none mb-1 uppercase tracking-tighter italic">Consistency Is King</h3>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Jangan biarkan streak lo putus, Irbadh!</p>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Jangan biarkan streak lo putus, {auth.user.name}!</p>
                             </div>
                         </div>
                         <button
