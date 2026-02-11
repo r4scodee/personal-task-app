@@ -145,6 +145,7 @@ export default function Dashboard({ auth, stats, recent_folders, budget_stats, t
                                 <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
                                     <TrendingUp size={16} className="text-indigo-600" /> Cashflow Overview
                                 </h3>
+                                <div className="px-3 py-1 text-[9px] font-black text-slate-400 uppercase tracking-widest">Live Updates</div>
                             </div>
                             <div className="space-y-6">
                                 <div>

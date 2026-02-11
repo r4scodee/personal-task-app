@@ -117,7 +117,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <div className="hidden sm:flex sm:items-center">
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            {/* Background & Border dihapus sesuai permintaan */}
                                             <button className="group flex items-center gap-3 rounded-full py-1.5 pl-2 pr-1 transition-all duration-300 hover:opacity-80">
                                                 <div className="flex flex-col items-end leading-tight">
                                                     <span className="text-sm font-black text-slate-900 tracking-tight uppercase">
@@ -142,7 +141,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <ChevronDown className="h-3 w-3 text-slate-400 group-hover:text-indigo-600 transition-colors" />
                                             </button>
                                         </Dropdown.Trigger>
 

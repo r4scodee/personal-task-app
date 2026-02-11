@@ -20,6 +20,8 @@ import {
     HelpCircle,
     Database,
     Cpu,
+    BarChart3,
+    Quote,
 } from "lucide-react";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,6 +44,12 @@ export default function Welcome({ auth }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const [openIndex, setOpenIndex] = useState(null);
+
+    const toggleFaq = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
     const navLinks = [
         { name: "Beranda", href: "#beranda" },
         { name: "Fitur", href: "#modul" },
@@ -50,6 +58,57 @@ export default function Welcome({ auth }) {
         { name: "FAQ", href: "#faq" },
         { name: "Testimoni", href: "#testimoni" },
         { name: "Kontak", href: "#kontak" },
+    ];
+
+    const faqData = [
+        {
+            q: "Ini beneran gratis?",
+            a: "Iya bro, buat fitur utama kayak bikin folder dan task selamanya gratis buat kamu.",
+        },
+        {
+            q: "Bisa diakses di HP?",
+            a: "Aman! Web ini udah mobile-friendly, jadi kamu bisa buka di browser HP mana aja tanpa perlu download aplikasi tambahan.",
+        },
+        {
+            q: "Data aku aman?",
+            a: "Kita pake sistem keamanan Supabase dengan enkripsi standar industri. Cuma kamu yang punya kunci akses ke isi tugas kamu.",
+        },
+        {
+            q: "Ada limit jumlah folder atau task?",
+            a: "Nggak ada limitasi. Kamu bisa bikin folder sebanyak yang kamu mau, dari projek kuliah sampe list hobi sampingan.",
+        },
+        {
+            q: "Bisa kolaborasi sama temen?",
+            a: "Untuk versi v1.7.0 ini masih fokus ke personal planner. Tapi tenang, fitur sharing folder masuk dalam roadmap pengembangan kita!",
+        },
+        {
+            q: "Gimana kalau mau request fitur?",
+            a: "Boleh banget! Langsung aja kontak aku lewat WhatsApp atau Instagram. Seneng banget dapet feedback dari sesama dev.",
+        },
+    ];
+
+    const testimonials = [
+        {
+            name: "Irbadh",
+            role: "Frontend Dev",
+            msg: "Simpel banget parah. Aku pake buat list tugas coding Laravel tiap hari, ngebantu fokus ke logic tanpa pusing UI.",
+            avatar: "I",
+            color: "bg-indigo-500",
+        },
+        {
+            name: "Zubeer",
+            role: "Student",
+            msg: "Gak berat pas dibuka. Aku nyimpen jadwal market day sekolah di sini, beneran gak ada yang kelewat satu pun.",
+            avatar: "Z",
+            color: "bg-blue-500",
+        },
+        {
+            name: "User Skinfa",
+            role: "Backend Eng",
+            msg: "Cocok buat tugas harian. UI-nya clean, gak bikin kognitif load tinggi pas lagi dikejar deadline projek.",
+            avatar: "S",
+            color: "bg-cyan-500",
+        },
     ];
 
     const FloatingIcon = ({ icon: Icon, className, style }) => {
@@ -103,16 +162,14 @@ export default function Welcome({ auth }) {
                                     <div
                                         className={`absolute inset-0 blur-lg rounded-full transition-all duration-500 ${scrolled ? "bg-indigo-500/20 group-hover:bg-indigo-500/40" : "bg-transparent"}`}
                                     ></div>
-                                    <Command
-                                        className="relative w-6 h-6 sm:w-8 sm:h-8 stroke-[2.5px] transform group-hover:rotate-12 transition-all duration-500 text-indigo-600"
-                                    />
+                                    <Command className="relative w-6 h-6 sm:w-8 sm:h-8 stroke-[2.5px] transform group-hover:rotate-12 transition-all duration-500 text-indigo-600" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h1
-                                        className="text-sm sm:text-xl font-black italic tracking-tighter uppercase leading-none text-gray-900"
-                                    >
+                                    <h1 className="text-sm sm:text-xl font-black italic tracking-tighter uppercase leading-none text-gray-900">
                                         TASK{" "}
-                                        <span className="text-indigo-600">.</span>{" "}
+                                        <span className="text-indigo-600">
+                                            .
+                                        </span>{" "}
                                         PLANNER
                                     </h1>
                                 </div>
@@ -147,7 +204,11 @@ export default function Welcome({ auth }) {
                         {/* 3. Action Area - Benerin responsif di sini */}
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                             <Link
-                                href={auth.user ? route("dashboard") : route("login")}
+                                href={
+                                    auth.user
+                                        ? route("dashboard")
+                                        : route("login")
+                                }
                                 className="px-4 sm:px-5 py-2 sm:py-2.5 text-[9px] sm:text-xs font-black uppercase tracking-widest rounded-xl sm:rounded-2xl transition-all duration-500 hover:scale-105 active:scale-95 bg-indigo-600 text-white shadow-lg shadow-indigo-200 whitespace-nowrap"
                             >
                                 {auth.user ? "Dashboard" : "Login"}
@@ -157,7 +218,11 @@ export default function Welcome({ auth }) {
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 className={`md:hidden p-1.5 sm:p-2 rounded-xl transition-colors ${scrolled ? "text-gray-600 hover:bg-indigo-50" : "text-gray-900 bg-white/20 backdrop-blur-sm"}`}
                             >
-                                {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+                                {isMenuOpen ? (
+                                    <X size={18} />
+                                ) : (
+                                    <Menu size={18} />
+                                )}
                             </button>
                         </div>
                     </div>
@@ -240,7 +305,7 @@ export default function Welcome({ auth }) {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                                 </span>
-                                <span className="text-xs text-indigo-600 font-bold uppercase tracking-widest">
+                                <span className="text-xs text-indigo-500 font-bold uppercase tracking-widest">
                                     Sistem v1.7.0 Aktif
                                 </span>
                             </div>
@@ -256,7 +321,7 @@ export default function Welcome({ auth }) {
                             {/* Subtitle */}
                             <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto font-medium">
                                 Bukan sekadar daftar tugas. Ini adalah{" "}
-                                <span className="text-indigo-600 font-bold">
+                                <span className="text-indigo-500 font-bold">
                                     Pusat Kendali
                                 </span>{" "}
                                 personal kamu untuk mengelola hobi, projek
@@ -332,12 +397,16 @@ export default function Welcome({ auth }) {
                 {/* --- MODULES --- */}
                 <section
                     id="modul"
-                    className="py-24 bg-white border-t border-slate-50 text-center"
+                    className="py-24 bg-white border-t border-slate-50 text-center relative overflow-hidden"
                 >
-                    <div className="max-w-6xl mx-auto px-10">
-                        {/* Header Section */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-40">
+                        <div className="absolute top-24 left-10 w-64 h-64 bg-indigo-100/50 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-24 right-10 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <div className="max-w-6xl mx-auto px-10 relative z-10">
                         <div className="mb-16">
-                            <h2 className="text-sm font-semibold text-indigo-600 tracking-[0.2em] uppercase mb-3">
+                            <h2 className="text-sm font-semibold text-indigo-500 tracking-[0.2em] uppercase mb-3">
                                 Kemampuan Sistem
                             </h2>
                             <p className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
@@ -345,43 +414,70 @@ export default function Welcome({ auth }) {
                             </p>
                         </div>
 
-                        <div className="max-w-5xl mx-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {[
                                     {
-                                        title: "Struktur Folder",
-                                        desc: "Organisir projek Flutter, React, hingga Java dalam struktur folder yang rapi dan logis.",
+                                        title: "Project Architecture",
+                                        desc: "Organisir projek Flutter, React, hingga Java dalam struktur folder yang rapi dan logis secara hierarkis.",
                                         icon: <Layout className="w-6 h-6" />,
+                                        tag: "Core",
                                     },
                                     {
-                                        title: "Pantau Tugas",
-                                        desc: "Update tugas secara real-time tanpa reload halaman untuk alur kerja yang jauh lebih cepat.",
+                                        title: "Reactive Engine",
+                                        desc: "Update status tugas secara real-time melalui sistem state management yang responsif tanpa interupsi.",
                                         icon: (
                                             <CheckCircle className="w-6 h-6" />
                                         ),
+                                        tag: "Speed",
                                     },
                                     {
-                                        title: "Tampilan Bersih",
-                                        desc: "Antarmuka modern yang nyaman di mata, dirancang khusus untuk sesi koding jangka panjang.",
+                                        title: "Aesthetic Interface",
+                                        desc: "Antarmuka minimalis yang dirancang untuk mengurangi kognitif load selama sesi koding jangka panjang.",
                                         icon: <Layers className="w-6 h-6" />,
+                                        tag: "UX",
+                                    },
+                                    {
+                                        title: "Priority Control",
+                                        desc: "Sistem klasifikasi tugas cerdas berdasarkan urgensi untuk memastikan workflow tetap pada jalurnya.",
+                                        icon: <Zap className="w-6 h-6" />,
+                                        tag: "Logic",
+                                    },
+                                    {
+                                        title: "Database Sync",
+                                        desc: "Sinkronisasi data instan ke cloud server untuk memastikan integritas informasi di berbagai perangkat.",
+                                        icon: <Database className="w-6 h-6" />,
+                                        tag: "Secure",
+                                    },
+                                    {
+                                        title: "Performance Monitor",
+                                        desc: "Pantau efisiensi pengerjaan tugas kamu dengan data statistik yang akurat dan mudah dipahami.",
+                                        icon: <BarChart3 className="w-6 h-6" />,
+                                        tag: "Analytic",
                                     },
                                 ].map((feature, i) => (
-                                    <div
+                                    <motion.div
                                         key={i}
-                                        className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:bg-white hover:shadow-sm transition-all duration-300 group"
+                                        whileHover={{ y: -2 }}
+                                        className="p-8 rounded-[2.5rem] bg-slate-50/50 border border-slate-100 hover:border-indigo-100 hover:bg-white hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-500 group text-left"
                                     >
-                                        <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-indigo-600 mb-6 border border-slate-100 group-hover:bg-indigo-600 group-hover:text-white transition-colors mx-auto shadow-sm">
-                                            {feature.icon}
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-indigo-600 border border-slate-100 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                                                {feature.icon}
+                                            </div>
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
+                                                {feature.tag}
+                                            </span>
                                         </div>
 
                                         <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">
                                             {feature.title}
                                         </h3>
 
-                                        <p className="text-slate-500 leading-relaxed text-sm font-medium">
+                                        <p className="text-slate-500 leading-relaxed text-sm font-medium opacity-80 group-hover:opacity-100 transition-opacity">
                                             {feature.desc}
                                         </p>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>
@@ -391,57 +487,75 @@ export default function Welcome({ auth }) {
                 {/* --- CARA KERJA (LIST CARD) --- */}
                 <section
                     id="cara-kerja"
-                    className="py-24 px-6 border-t border-slate-50"
+                    className="py-24 px-6 border-t border-slate-50 relative overflow-hidden"
                 >
-                    <div className="max-w-5xl mx-auto">
-                        <div className="mb-16">
-                            <span className="text-indigo-600 font-semibold text-sm tracking-widest uppercase">
+                    <div
+                        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+                        style={{
+                            backgroundImage:
+                                "radial-gradient(circle at 2px 2px, #4f46e5 1px, transparent 0)",
+                            backgroundSize: "40px 40px",
+                        }}
+                    ></div>
+
+                    <div className="max-w-6xl mx-auto z-10">
+                        <div className="mb-16 text-center">
+                            <span className="text-indigo-500 font-semibold text-sm tracking-widest uppercase mb-3 block">
                                 Cara Kerja
                             </span>
-                            <h2 className="text-3xl font-bold mt-2">
+                            <h2 className="text-3xl font-bold mt-2 text-slate-900 tracking-tight">
                                 Gak Pake Ribet, Cuma 3 Langkah
                             </h2>
                         </div>
 
-                        <div className="grid gap-6 md:grid-cols-3">
-                            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                                <FolderPlus
-                                    className="text-indigo-600 mb-6"
-                                    size={28}
-                                />
-                                <h3 className="font-bold text-lg mb-2">
-                                    1. Buat Folder
-                                </h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Kelompokkan tugas kamu biar gak nyampur.
-                                    Sekolah, kerjaan, atau projek sampingan.
-                                </p>
-                            </div>
-                            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                                <PlusCircle
-                                    className="text-indigo-600 mb-6"
-                                    size={28}
-                                />
-                                <h3 className="font-bold text-lg mb-2">
-                                    2. Tambah Task
-                                </h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Tulis tugas kamu, set prioritasnya (Low,
-                                    Medium, High). Beresin satu-satu.
-                                </p>
-                            </div>
-                            <div className="p-8 bg-slate-50 rounded-2xl border border-slate-100">
-                                <CheckCircle2
-                                    className="text-indigo-600 mb-6"
-                                    size={28}
-                                />
-                                <h3 className="font-bold text-lg mb-2">
-                                    3. Tandai Selesai
-                                </h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Tugas yang beres tinggal centang. Dapetin
-                                    rasa puas pas ngeliat list lo bersih!
-                                </p>
+                        <div className="relative">
+                            <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-slate-100 to-transparent -translate-y-1/2"></div>
+
+                            <div className="grid gap-6 md:grid-cols-3">
+                                {[
+                                    {
+                                        step: "1",
+                                        title: "Inisialisasi Folder",
+                                        desc: "Kelompokkan tugas kamu biar gak nyampur. Sekolah, kerjaan, atau projek koding sampingan dalam satu struktur.",
+                                        icon: (
+                                            <FolderPlus className="w-6 h-6" />
+                                        ),
+                                    },
+                                    {
+                                        step: "2",
+                                        title: "Input & Prioritas",
+                                        desc: "Tulis tugas kamu, set prioritasnya (Low, Medium, High). Biarkan sistem mengatur urutan eksekusinya.",
+                                        icon: (
+                                            <PlusCircle className="w-6 h-6" />
+                                        ),
+                                    },
+                                    {
+                                        step: "3",
+                                        title: "Monitor & Selesai",
+                                        desc: "Tugas yang beres tinggal centang. Dapetin rasa puas pas ngeliat list lo bersih dan tertata rapi.",
+                                        icon: (
+                                            <CheckCircle2 className="w-6 h-6" />
+                                        ),
+                                    },
+                                ].map((item, i) => (
+                                    <motion.div
+                                        key={i}
+                                        whileHover={{ y: -2 }}
+                                        className="group relative p-6 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-500 text-center overflow-hidden"
+                                    >
+                                        <div className="relative z-10 w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-6 mx-auto group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">
+                                            {item.icon}
+                                        </div>
+
+                                        <h3 className="relative z-10 font-bold text-lg mb-4 text-slate-900 tracking-tight">
+                                            {item.step}. {item.title}
+                                        </h3>
+
+                                        <p className="relative z-10 text-slate-400 text-sm leading-relaxed font-medium">
+                                            {item.desc}
+                                        </p>
+                                    </motion.div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -455,7 +569,7 @@ export default function Welcome({ auth }) {
                     <div className="max-w-5xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <div>
-                                <span className="text-indigo-400 font-semibold text-sm tracking-widest uppercase">
+                                <span className="text-indigo-500 font-semibold text-sm tracking-widest uppercase">
                                     Mengapa Kami?
                                 </span>
                                 <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-6 leading-tight">
@@ -529,119 +643,158 @@ export default function Welcome({ auth }) {
                 </section>
 
                 {/* --- FAQ SECTION --- */}
-                <section id="faq" className="py-24 px-6">
+                <section id="faq" className="py-32 px-6">
                     <div className="max-w-3xl mx-auto">
-                        <div className="text-center mb-16">
-                            <HelpCircle
-                                className="mx-auto text-indigo-600 mb-4"
-                                size={32}
-                            />
-                            <h2 className="text-3xl font-bold">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-16"
+                        >
+                            <div className="inline-flex p-3 rounded-2xl bg-indigo-50 text-indigo-500 mb-4">
+                                <HelpCircle size={28} />
+                            </div>
+                            <h2 className="text-4xl font-black tracking-tighter text-slate-900">
                                 Paling Sering Ditanyain
                             </h2>
-                        </div>
+                            <p className="mt-4 text-slate-400 font-medium">
+                                Semua yang perlu kamu tahu tentang sistem
+                                Mission Control ini.
+                            </p>
+                        </motion.div>
 
-                        <div className="space-y-6">
-                            <div className="p-6 border-b border-slate-100">
-                                <h4 className="font-bold text-lg mb-2">
-                                    Ini beneran gratis?
-                                </h4>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Iya bro, buat fitur utama kayak bikin folder
-                                    dan task selamanya gratis buat kamu.
-                                </p>
-                            </div>
-                            <div className="p-6 border-b border-slate-100">
-                                <h4 className="font-bold text-lg mb-2">
-                                    Bisa diakses di HP?
-                                </h4>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Aman! Web ini udah mobile-friendly, jadi kamu
-                                    bisa buka di browser HP mana aja.
-                                </p>
-                            </div>
-                            <div className="p-6 border-b border-slate-100">
-                                <h4 className="font-bold text-lg mb-2">
-                                    Data aku aman?
-                                </h4>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    Kita pake Supabase buat simpen data kamu.
-                                    Enkripsinya mantap, jadi cuma kamu yang bisa
-                                    liat isi tugas kamu.
-                                </p>
-                            </div>
+                        <div className="grid gap-4">
+                            {faqData.map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    layout
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                    onClick={() => toggleFaq(index)}
+                                    className={`group cursor-pointer p-4 rounded-[1.5rem] bg-white border transition-all duration-300 ${
+                                        openIndex === index
+                                            ? "border-indigo-200 shadow-xl shadow-indigo-500/5"
+                                            : "border-slate-100 hover:border-indigo-100"
+                                    }`}
+                                >
+                                    <div className="flex items-center justify-between gap-4">
+                                        <h4
+                                            className={`font-black text-[16px] tracking-tight transition-colors ${
+                                                openIndex === index
+                                                    ? "text-indigo-600"
+                                                    : "text-slate-500"
+                                            }`}
+                                        >
+                                            {item.q}
+                                        </h4>
+                                        <motion.div
+                                            animate={{
+                                                rotate:
+                                                    openIndex === index
+                                                        ? 180
+                                                        : 0,
+                                            }}
+                                            className="text-slate-400 group-hover:text-indigo-600"
+                                        >
+                                            <ArrowDown size={20} />
+                                        </motion.div>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {openIndex === index && (
+                                            <motion.div
+                                                initial={{
+                                                    height: 0,
+                                                    opacity: 0,
+                                                    marginTop: 0,
+                                                }}
+                                                animate={{
+                                                    height: "auto",
+                                                    opacity: 1,
+                                                    marginTop: 0,
+                                                }}
+                                                exit={{
+                                                    height: 0,
+                                                    opacity: 0,
+                                                    marginTop: 0,
+                                                }}
+                                                transition={{
+                                                    duration: 0.3,
+                                                    ease: "easeInOut",
+                                                }}
+                                                className="overflow-hidden"
+                                            >
+                                                <p className="text-slate-400 text-sm leading-relaxed font-medium border-t border-slate-50 pt-2">
+                                                    {item.a}
+                                                </p>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </section>
 
                 {/* --- TESTIMONIAL --- */}
-                <section id="testimoni" className="py-24 px-6 bg-slate-50">
+                <section
+                    id="testimoni"
+                    className="py-28 px-6 bg-white relative overflow-hidden"
+                >
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-50/50 rounded-full blur-[100px] -z-10"></div>
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-[100px] -z-10"></div>
+
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-center text-3xl font-bold mb-16">
-                            Apa Kata Mereka
-                        </h2>
+                        <div className="text-center mb-20">
+                            <span className="text-indigo-500 font-semibold text-sm tracking-widest uppercase mb-3 block">
+                                Validasi Sistem
+                            </span>
+                            <h2 className="text-4xl font-black tracking-tighter text-slate-900">
+                                Apa kata Mereka
+                            </h2>
+                        </div>
+
                         <div className="grid md:grid-cols-3 gap-8">
-                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                                <div className="flex gap-1 text-yellow-400 mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            size={16}
-                                            fill="currentColor"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="text-slate-600 text-sm mb-6 leading-relaxed italic">
-                                    "Simpel banget parah. Aku pake buat list
-                                    tugas coding Laravel tiap hari, ngebantu
-                                    fokus."
-                                </p>
-                                <div className="font-bold text-sm">Irbadh</div>
-                                <div className="text-slate-400 text-xs mt-1">
-                                    Siswa RPL
-                                </div>
-                            </div>
-                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                                <div className="flex gap-1 text-yellow-400 mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            size={16}
-                                            fill="currentColor"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="text-slate-600 text-sm mb-6 leading-relaxed italic">
-                                    "Gak berat pas dibuka. Aku nyimpen jadwal
-                                    market day sekolah di sini, gak ada yang
-                                    kelewat."
-                                </p>
-                                <div className="font-bold text-sm">Zubeer</div>
-                                <div className="text-slate-400 text-xs mt-1">
-                                    Pelajar
-                                </div>
-                            </div>
-                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                                <div className="flex gap-1 text-yellow-400 mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            size={16}
-                                            fill="currentColor"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="text-slate-600 text-sm mb-6 leading-relaxed italic">
-                                    "Cocok buat tugas harian. UI-nya clean, gak
-                                    bikin sakit mata pas dipake malem-malem."
-                                </p>
-                                <div className="font-bold text-sm">
-                                    User Skinfa
-                                </div>
-                                <div className="text-slate-400 text-xs mt-1">
-                                    Backend Dev
-                                </div>
-                            </div>
+                            {testimonials.map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    whileHover={{ y: -2 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="relative p-8 bg-indigo-100/10 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-500 flex flex-col justify-between"
+                                >
+                                    <div className="relative z-10">
+                                        <div className="flex gap-1 text-amber-400 mb-6">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    size={14}
+                                                    fill="currentColor"
+                                                    strokeWidth={0}
+                                                />
+                                            ))}
+                                        </div>
+
+                                        <p className="text-slate-500 text-sm leading-relaxed font-medium mb-4 italic">
+                                            "{item.msg}"
+                                        </p>
+                                    </div>
+
+                                    <div className="flex items-center gap-4 relative z-10">
+                                        <div>
+                                            <h4 className="font-black text-sm tracking-tight text-slate-900">
+                                                {item.name}
+                                            </h4>
+                                            <p className="text-[12px] font-bold text-slate-400 tracking-tight mt-0.5">
+                                                {item.role}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -667,9 +820,9 @@ export default function Welcome({ auth }) {
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                     <Link
                                         href={route("register")}
-                                        className="w-full sm:w-auto bg-white text-indigo-600 px-10 py-4 rounded-xl font-bold text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-700/10"
+                                        className="w-full sm:w-auto bg-white text-indigo-500 px-10 py-4 rounded-xl font-bold text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-700/10"
                                     >
-                                        Daftar Gratis Sekarang
+                                        Daftar Gratis Sekarang 
                                     </Link>
 
                                     <a
