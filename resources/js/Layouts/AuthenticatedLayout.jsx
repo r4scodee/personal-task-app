@@ -58,7 +58,7 @@ export default function AuthenticatedLayout({ header, children }) {
             icon: <Zap size={14} />,
         },
         {
-            name: "Event",
+            name: "Jadwal",
             href: route("events.index"),
             active: "events.*",
             icon: <Calendar size={14} />,
