@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('category')->nullable()->after('target_name');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
-            $table->foreignId('folder_id')->nullable()->change();
+            $table->foreignId('folder_id')->nullable()->constrained()->onDelete('set null');
             $table->decimal('amount', 15, 2); 
             $table->enum('type', ['income', 'expense']);
             $table->timestamps();
