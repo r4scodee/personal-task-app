@@ -541,7 +541,7 @@ export default function Welcome({ auth }) {
                                     <motion.div
                                         key={i}
                                         whileHover={{ y: -2 }}
-                                        className="group relative p-6 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-500 text-center overflow-hidden"
+                                        className="group relative p-6 bg-white rounded-[2.5rem] border border-slate-100 hover:border-indigo-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-500 text-center overflow-hidden"
                                     >
                                         <div className="relative z-10 w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-6 mx-auto group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">
                                             {item.icon}
@@ -822,7 +822,7 @@ export default function Welcome({ auth }) {
                                         href={route("register")}
                                         className="w-full sm:w-auto bg-white text-indigo-500 px-10 py-4 rounded-xl font-bold text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-700/10"
                                     >
-                                        Daftar Gratis Sekarang 
+                                        Daftar Gratis Sekarang
                                     </Link>
 
                                     <a
@@ -846,62 +846,44 @@ export default function Welcome({ auth }) {
                 </section>
 
                 {/* --- FOOTER --- */}
-                <footer
-                    id="kontak"
-                    className="bg-white border-t border-gray-100 pt-24 pb-12"
-                >
-                    <div className="container mx-auto px-6 text-center md:text-left">
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
+                <footer id="kontak" className="bg-white border-t border-gray-100 pt-12 pb-8 mt-auto">
+                    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 text-center md:text-left">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12">
                             <div>
-                                <h2 className="text-3xl font-black text-gray-900 italic tracking-tighter mb-3 uppercase">
+                                <h2 className="text-2xl font-black text-gray-900 italic tracking-tighter mb-2 uppercase">
                                     Iras Alizubeer
                                 </h2>
-                                <p className="text-gray-500 text-sm font-medium tracking-widest uppercase">
+                                <p className="text-gray-400 text-[10px] font-bold tracking-[0.2em] uppercase">
                                     Digital Creative & Developer.
                                 </p>
                             </div>
-
-                            <div className="flex flex-wrap justify-center md:justify-start gap-8">
-                                {[
-                                    {
-                                        name: "Github",
-                                        icon: <Github size={18} />,
-                                        url: "https://github.com/r4scodee",
-                                    },
-                                    {
-                                        name: "WhatsApp",
-                                        icon: <MessageCircle size={18} />,
-                                        url: "https://wa.me/6283150773059",
-                                    },
-                                    {
-                                        name: "Instagram",
-                                        icon: <Instagram size={18} />,
-                                        url: "https://instagram.com/1rb4dh",
-                                    },
-                                ].map((social, i) => (
-                                    <a
-                                        key={i}
-                                        href={social.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-gray-500 hover:text-indigo-600 transition-all flex items-center gap-2 text-xs font-bold uppercase tracking-widest group"
-                                    >
-                                        <span className="group-hover:scale-110 transition-transform">
-                                            {social.icon}
-                                        </span>
-                                        {social.name}
-                                    </a>
-                                ))}
+                            <div className="flex gap-6">
+                                <a
+                                    href="https://github.com/r4scodee"
+                                    target="_blank"
+                                    className="text-gray-500 hover:text-indigo-600 transition-all"
+                                >
+                                    <Github size={18} />
+                                </a>
+                                <a
+                                    href="https://wa.me/6283150773059"
+                                    target="_blank"
+                                    className="text-gray-500 hover:text-indigo-600 transition-all"
+                                >
+                                    <MessageCircle size={18} />
+                                </a>
+                                <a
+                                    href="https://instagram.com/1rb4dh"
+                                    target="_blank"
+                                    className="text-gray-500 hover:text-indigo-600 transition-all"
+                                >
+                                    <Instagram size={18} />
+                                </a>
                             </div>
                         </div>
-
-                        <div className="flex flex-col md:flex-row justify-between items-center border-t border-gray-100 pt-10">
-                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.4em]">
-                                DIbuat oleh Iras Alizubeer - Sejak 2026
-                            </p>
-                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.3em]">
-                                v1.7.0
-                            </p>
+                        <div className="flex justify-between items-center border-t border-gray-100 pt-10 text-[10px] text-gray-400 uppercase font-bold tracking-[0.4em]">
+                            <p>Dibuat oleh Irbadh - 2026</p>
+                            <p>v1.7.0</p>
                         </div>
                     </div>
                 </footer>
