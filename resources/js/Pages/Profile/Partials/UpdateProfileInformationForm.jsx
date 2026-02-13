@@ -87,7 +87,7 @@ export default function UpdateProfileInformation({
                                 </div>
                             )}
 
-                            <div className="absolute bottom-1 right-1 h-6 w-6 bg-emerald-500 border-4 border-white rounded-full shadow-lg"></div>
+                            <div className="absolute bottom-1.5 right-1.5 h-[23px] w-[23px] bg-emerald-500 border-4 border-slate-50 rounded-full"></div>
                         </div>
 
                         {/* Overlay Kamera */}

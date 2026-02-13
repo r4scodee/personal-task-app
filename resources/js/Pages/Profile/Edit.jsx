@@ -76,7 +76,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             <div className="p-2.5 bg-rose-100 text-rose-600 rounded-xl">
                                 <AlertOctagon size={20} />
                             </div>
-                            <h4 className="text-sm font-black text-rose-900 uppercase tracking-widest text-rose-600">
+                            <h4 className="text-sm font-black uppercase tracking-widest text-rose-600">
                                 Zona Berbahaya
                             </h4>
                         </div>
